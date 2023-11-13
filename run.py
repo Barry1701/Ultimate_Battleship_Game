@@ -15,7 +15,7 @@ class Board:
         self.name = name
         self.type = type
         self.guesses = []
-        self.ship = []
+        self.ships = []
     
     def print(self):
         for row in self.board:
@@ -56,10 +56,25 @@ def valid_coordinates(x, y, board):
         if board[x][y] == ".":
             return True
         else:
-            print("This cell is already oocupied. Choose different one")
+            print("This cell is already oocupied. Choose different one.")
     else:
-        print("Coordinates are out of the board range.Choose between 0 & 4")
+        print("Coordinates are out of the board range.Choose between 0 & 4.")
         return False
+
+    try:
+        x = int(input("Enter the row where You want to place the ship"))
+        y = int(input("Enter the column where You want to place the ship"))
+    except ValueError:
+        print("Invalid Input. Please enter valid numbers(0-4)")
+    
+    if valid_coordinates(computer_board.board):
+        #Put ship on player's board
+        computer_board.board[x][y] = "@"
+        print("Ship placed successfully")
+    else:
+        print("Invalid coordinates. Try again.")
+
+
 
     
 
