@@ -23,4 +23,18 @@ class Board:
 
     def guess(self, x, y):
         self.guesses.append((x, y))
-        self.board[x][y] = "X"        
+        self.board[x][y] = "X"
+
+        if(x, y) in self.ships:
+            self.board[x][y] = "*"
+            return "Hit"
+        else:
+            return "Miss"     
+
+    def add_ship(self, x, y, type ="computer"):
+        if len(self.ships) >= self num_ship:
+            print("Error: You cannot add any more ships")
+        else:
+            self.ships.append((x, y))
+            if self.type == "player":
+                self.board [x][y] = "@"               
