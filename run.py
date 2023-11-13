@@ -32,7 +32,7 @@ class Board:
             return "Miss"     
 
     def add_ship(self, x, y, type ="computer"):
-        if len(self.ships) >= self num_ship:
+        if len(self.ships) >= self.num_ships:
             print("Error: You cannot add any more ships")
         else:
             self.ships.append((x, y))
@@ -45,7 +45,24 @@ def random_point(size):
         """
         return randint(0, size - 1)
 
-def valid_coordinates(x, y, board)
+def valid_coordinates(x, y, board):
+    """
+    Check if the given coordinates are valid for the board.
+    """
+    size = len(board)
+    #check range of coordintates
+    if 0 <= x < size and 0 <= y < size:
+        #Check availability of the cell
+        if board[x][y] == ".":
+            return True
+        else:
+            print("This cell is already oocupied. Choose different one")
+    else:
+        print("Coordinates are out of the board range.Choose between 0 & 4")
+        return False
+
+    
+
 
 
 def populate_board(board)
