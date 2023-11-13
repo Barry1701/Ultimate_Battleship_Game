@@ -20,3 +20,7 @@ class Board:
     def print(self):
         for row in self.board:
             print(" ".join(row))
+
+    def guess(self, x, y):
+        self.guesses.append((x, y))
+        self.board[x][y] = "X"        
