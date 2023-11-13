@@ -62,13 +62,13 @@ def valid_coordinates(x, y, board):
         return False
 
     try:
-        x = int(input("Enter the row where You want to place the ship"))
-        y = int(input("Enter the column where You want to place the ship"))
+        x = int(input("Enter the row where You want to place the ship:"))
+        y = int(input("Enter the column where You want to place the ship:"))
     except ValueError:
         print("Invalid Input. Please enter valid numbers(0-4)")
     
     if valid_coordinates(computer_board.board):
-        #Put ship on player's board
+        #Put ship on computer's board
         computer_board.board[x][y] = "@"
         print("Ship placed successfully")
     else:
@@ -80,13 +80,29 @@ def valid_coordinates(x, y, board):
 
 
 
-def populate_board(board)
+def populate_board(board):
+    """
+    Add ships to the board randomly.
+    """
+    num_ships = len(board.ships)
+    size = len(board.board)
+
+    while num_ships < board.num_ships:
+        x = random_point(size)
+        y = random_point(size)
+    
+        if valid_coordinates(x, y, board.board):
+            #add ship on the board
+            board.add_ship(x, y)
+            num_ships += 1
+
+    
 
 
-def make_guess(board)
+# def make_guess(board)
 
 
-def play_game(computer_board, player_board)
+# def play_game(computer_board, player_board)
 
 
 def new_game():
