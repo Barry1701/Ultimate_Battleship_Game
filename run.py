@@ -99,7 +99,23 @@ def populate_board(board):
     
 
 
-# def make_guess(board)
+def make_guess(board):
+    """
+    Generate random coordinates for the computer or prompts player for the input
+    """
+    if board.type == "computer":
+        #Computer guess: pick random coordinates
+        x = ranodom_point(board.size)
+        y = random_point(board.size)
+    else:
+        #Player guess: prompt player for input
+        x = int(input("Enter the row where You want to place the ship:"))
+        y = int(input("Enter the column where You want to place the ship:"))
+    return x, y
+
+
+
+
 
 
 # def play_game(computer_board, player_board)
