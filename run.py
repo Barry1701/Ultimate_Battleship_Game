@@ -50,7 +50,7 @@ def get_coordinates_from_player():
         x = int(input("Enter the row where You want to place the ship:"))
         y = int(input("Enter the column where You want to place the ship:"))
         return x, y
-    except ValueError:
+     except ValueError:
         print("Invalid Input. Please enter valid numbers(0-4)")
         return None
 
@@ -129,7 +129,47 @@ def make_guess(board):
 
 
 
-# def play_game(computer_board, player_board)
+def play_game(computer_board, player_board):
+    """
+    Simulates game of Battleship between Player and Computer
+    """
+    while True:
+        print("\n" + "-" * 38) 
+        print("Computer Board:")
+        computer_board.print()
+        print("\n" + "-" * 38)
+        print(f"{player_board.name}'s Board:")
+        player_board.print()
+
+        #Player makes a move
+        print("\n" + "-" *  38)
+        print(f"{player_board.name} Turn:")
+        player_guess = make_guess(player_board)
+        result = computer_board.guess(*player_guess)
+        print(result)
+
+        #Checking the game termination condition
+        if all(coords == for row in computer_board.board for coords in row):
+            print(f"Congratulations {player_board.name} ! You have won!")
+            scores["player"] += 1
+            break
+
+        #Computer makes a move
+        print("\n" + "-" * 38)
+        print("Computer's Turn:")
+        computer_guess = make_guess(computer_board)
+        result = player_board.guess(*computer_guess)
+        print(result)
+
+        #Checking the game termination condition
+        if all(coords == for row in player_board.board for coords in row):
+            print("Computer has Won! Better luck next time")
+            scores["computer"] += 1
+            break
+
+
+
+
 
 
 def new_game():
