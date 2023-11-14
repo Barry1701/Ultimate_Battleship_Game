@@ -45,6 +45,16 @@ def random_point(size):
         """
         return randint(0, size - 1)
 
+def get_coordinates_from_player():
+     try:
+        x = int(input("Enter the row where You want to place the ship:"))
+        y = int(input("Enter the column where You want to place the ship:"))
+        return x, y
+    except ValueError:
+        print("Invalid Input. Please enter valid numbers(0-4)")
+        return None
+
+
 def valid_coordinates(x, y, board):
     """
     Check if the given coordinates are valid for the board.
@@ -61,18 +71,14 @@ def valid_coordinates(x, y, board):
         print("Coordinates are out of the board range.Choose between 0 & 4.")
         return False
 
-    try:
-        x = int(input("Enter the row where You want to place the ship:"))
-        y = int(input("Enter the column where You want to place the ship:"))
-    except ValueError:
-        print("Invalid Input. Please enter valid numbers(0-4)")
+   
     
-    if valid_coordinates(computer_board.board):
-        #Put ship on computer's board
-        computer_board.board[x][y] = "@"
-        print("Ship placed successfully")
-    else:
-        print("Invalid coordinates. Try again.")
+    # if valid_coordinates(computer_board.board):
+    #     #Put ship on computer's board
+    #     computer_board.board[x][y] = "@"
+    #     print("Ship placed successfully")
+    # else:
+    #     print("Invalid coordinates. Try again.")
 
 
 
@@ -109,10 +115,15 @@ def make_guess(board):
         y = random_point(board.size)
     else:
         #Player guess: prompt player for input
-        x = int(input("Enter the row where You want to place the ship:"))
-        y = int(input("Enter the column where You want to place the ship:"))
-    return x, y
+        coordinates = get_coordinates_from_player()
+        while coordinates is None or not valid_coordinates(coordinates[0], coordinates[1], board.board):
+            print("Invalid Coordinates. Try Again") 
+            coordinates = get_coordinates_from_player()
 
+        x, y = coordinates
+
+    return x, y
+       
 
 
 
