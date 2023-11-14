@@ -73,12 +73,7 @@ def valid_coordinates(x, y, board):
 
    
     
-    # if valid_coordinates(computer_board.board):
-    #     #Put ship on computer's board
-    #     computer_board.board[x][y] = "@"
-    #     print("Ship placed successfully")
-    # else:
-    #     print("Invalid coordinates. Try again.")
+  
 
 
 
@@ -111,13 +106,13 @@ def make_guess(board):
     """
     if board.type == "computer":
         #Computer guess: pick random coordinates
-        x = ranodom_point(board.size)
+        x = random_point(board.size)
         y = random_point(board.size)
     else:
         #Player guess: prompt player for input
         coordinates = get_coordinates_from_player()
         while coordinates is None or not valid_coordinates(coordinates[0], coordinates[1], board.board):
-            print("Invalid Coordinates. Try Again") 
+            
             coordinates = get_coordinates_from_player()
 
         x, y = coordinates
@@ -149,7 +144,7 @@ def play_game(computer_board, player_board):
         print(result)
 
         #Checking the game termination condition
-        if all(coords == for row in computer_board.board for coords in row):
+        if all(coords == "*" for row in computer_board.board for coords in row):
             print(f"Congratulations {player_board.name} ! You have won!")
             scores["player"] += 1
             break
@@ -162,7 +157,7 @@ def play_game(computer_board, player_board):
         print(result)
 
         #Checking the game termination condition
-        if all(coords == for row in player_board.board for coords in row):
+        if all(coords == "*" for row in player_board.board for coords in row):
             print("Computer has Won! Better luck next time")
             scores["computer"] += 1
             break
