@@ -1,4 +1,5 @@
 from random import randint
+import json
 
 scores = {"computer": 0, "player": 0 }
 
@@ -55,18 +56,18 @@ def get_coordinates_from_player():
         return None
 
 
-def valid_coordinates(x, y, board):
+def valid_coordinates(x, y, ships):
     """
     Check if the given coordinates are valid for the board.
     """
-    size = len(board)
+    size = len(ships)
     #check range of coordintates
     if 0 <= x < size and 0 <= y < size:
         #Check availability of the cell
-        if board[x][y] == ".":
+        if ships[x][y] == ".":
             return True
         else:
-            print("This cell is already oocupied. Choose different one.")
+            print("This cell is already occupied. Choose different one.")
     else:
         print("Coordinates are out of the board range.Choose between 0 & 4.")
         return False
@@ -74,11 +75,6 @@ def valid_coordinates(x, y, board):
    
     
   
-
-
-
-    
-
 
 
 def populate_board(board):
@@ -118,26 +114,53 @@ def make_guess(board):
         x, y = coordinates
 
     return x, y
+
+
+
+def save_scores(scores):
+    """
+    Safe the scores dictionary to JSON file
+    """
+    with open("scores.json", "w") as file:
+        json.dump(scores, file)
+    
+def load_scores():
+    """
+    Load scores from JSON file
+    """
+    try:
+        with open("scores.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return{"computer" : 0, "player" : 0}
+
+def update_scores(winner, scores):
+    """
+    Update scores dictionary based on the winner of the game
+    """
+    scores[winner] += 1
+    save_scores(scores)
+
        
 
 
 
 
 
-def play_game(computer_board, player_board):
+def play_game(computer_board, player_board, scores):
     """
     Simulates game of Battleship between Player and Computer
     """
     while True:
-        print("\n" + "-" * 38) 
+        print("\n" + "-" * 48) 
         print("Computer Board:")
         computer_board.print()
-        print("\n" + "-" * 38)
+        print("\n" + "-" * 48)
         print(f"{player_board.name}'s Board:")
         player_board.print()
 
         #Player makes a move
-        print("\n" + "-" *  38)
+        print("\n" + "-" *  48)
         print(f"{player_board.name} Turn:")
         player_guess = make_guess(player_board)
         result = computer_board.guess(*player_guess)
@@ -146,11 +169,11 @@ def play_game(computer_board, player_board):
         #Checking the game termination condition
         if all(coords == "*" for row in computer_board.board for coords in row):
             print(f"Congratulations {player_board.name} ! You have won!")
-            scores["player"] += 1
+            update_scores("player", scores)
             break
 
         #Computer makes a move
-        print("\n" + "-" * 38)
+        print("\n" + "-" * 48)
         print("Computer's Turn:")
         computer_guess = make_guess(computer_board)
         result = player_board.guess(*computer_guess)
@@ -159,7 +182,7 @@ def play_game(computer_board, player_board):
         #Checking the game termination condition
         if all(coords == "*" for row in player_board.board for coords in row):
             print("Computer has Won! Better luck next time")
-            scores["computer"] += 1
+            update_scores("computer", scores)
             break
 
 
@@ -174,15 +197,15 @@ def new_game():
         """                   
         size = 5
         num_ships = 4
-        scores["computer"] = 0
-        scores["player"] = 0
-        print("-" * 38)
+        scores = load_scores()
+        print("Scores:", scores)
+        print("-" * 48)
         print("Welcome to the ULTIMATE BATTLESHIPS")
         print(f"Board Size: {size}. Number Of the Ships: {num_ships}")
         print("Top left corner is Row: 0, Column: 0")
-        print("-" * 38)
+        print("-" * 48)
         player_name = input("Please enter your name: \n")
-        print("-" * 38)
+        print("-" * 48)
 
         computer_board = Board(size, num_ships, "Computer", type= "computer")
         player_board = Board(size, num_ships, player_name, type= "player")
@@ -191,7 +214,14 @@ def new_game():
             populate_board(player_board)
             populate_board(computer_board)
         
-        play_game(computer_board, player_board)
+        play_game(computer_board, player_board, scores)
+
+
+        play_again = input("Do You want to play again? (yes/no):   ").lower()
+        if play_again == "yes":
+            new_game()
+        else:
+            print("Thank You for playing!")
 
 new_game()
 
